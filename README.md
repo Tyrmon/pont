@@ -1,2 +1,2 @@
 # pont
-game classic pygame
+classic game on pygame
