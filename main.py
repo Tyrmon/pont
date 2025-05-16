@@ -15,16 +15,16 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def update_r(self):
         keys = key.get_pressed()
-        if keys[K_DOWN] and self.rect.y > 650:
-            self.rect.x -= self.speed
-        if keys[K_UP] and self.rect.y < 5:    
-            self.rect.x += self.speed
+        if keys[K_DOWN] and self.rect.y < 450:
+            self.rect.y += self.speed
+        if keys[K_UP] and self.rect.y > 5:    
+            self.rect.y -= self.speed
     def update_l(self):
         keys = key.get_pressed()
-        if keys[K_s] and self.rect.y > 450:
-            self.rect.x -= self.speed
-        if keys[K_w] and self.rect.y < 5:    
-            self.rect.x += self.speed
+        if keys[K_s] and self.rect.y < 450:
+            self.rect.y += self.speed
+        if keys[K_w] and self.rect.y > 5:    
+            self.rect.y -= self.speed
     
 
 class Enemy(GameSprite):
@@ -38,15 +38,15 @@ class Enemy(GameSprite):
 
 
 font.init()
-font1 = font.SysFont('Arial'    ,36)
+font1 = font.SysFont('Arial',36)
 lose = font1.render('You Lose!', True,(5,0,0))
 window = display.set_mode((700,500))
 display.set_caption("Ping-pong")
 background = transform.scale(image.load("zxc.png"),(700,500))
 clock = time.Clock()
 fps = 80
-player1 = Player('hero1.png', 5,250, 10)
-player2 = Player('hero1.png', 650,250, 10)
+player1 = Player('chis.png', 5,250, 10)
+player2 = Player('hero1.png', 640,250, 10)
 
 
 
@@ -54,16 +54,15 @@ game = True
 finish = False
 while game:
 
-    
     for e in event.get():
         if e.type == QUIT:
             game = False
        
-    window.blit(background,(0,0))  
-    player1.reset()
-    player1.update_l()
-    player2.reset()
-    player2.update_r()           
+        window.blit(background,(0,0))  
+        player1.reset()
+        player1.update_l()
+        player2.reset()
+        player2.update_r()           
 
     display.update()
     clock.tick(fps)    
