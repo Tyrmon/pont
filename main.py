@@ -31,15 +31,10 @@ class Enemy(GameSprite):
     def update(self):
         self.rect.y += self.speed
         
-            
-
-
-
-
-
 font.init()
 font1 = font.SysFont('Arial',36)
-lose = font1.render('You Lose!', True,(5,0,0))
+lose1 = font1.render('player 1(L) lose', True,(155,0,55))
+lose2 = font1.render('player 2(R) lose', True,(155,0,55))
 window = display.set_mode((700,500))
 display.set_caption("Ping-pong")
 background = transform.scale(image.load("zxc.png"),(700,500))
@@ -47,8 +42,9 @@ clock = time.Clock()
 fps = 80
 player1 = Player('chis.png', 5,250, 10)
 player2 = Player('hero1.png', 640,250, 10)
-
-
+ball = Enemy('Night.png',250,250,5)
+speed_y = 3
+speed_x = 3
 
 game = True
 finish = False
@@ -57,12 +53,26 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
-       
+    if finish != True:
         window.blit(background,(0,0))  
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+        if ball.rect.y > 450 or ball.rect.y < 0:
+            speed_y *= -1
+        if sprite.collide_rect(player1,ball) or sprite.collide_rect(player2,ball):
+            speed_x *= -1
+        if ball.rect.x > 700:
+            finish = True
+            window.blit(lose1,(250,250))
+        if ball.rect.x < 0:
+            finish = True
+            window.blit(lose2, (250,250))
+            
         player1.reset()
         player1.update_l()
         player2.reset()
-        player2.update_r()           
+        player2.update_r()
+        ball.reset()           
 
     display.update()
     clock.tick(fps)    
