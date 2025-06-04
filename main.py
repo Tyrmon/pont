@@ -10,7 +10,7 @@ class GameSprite(sprite.Sprite):
         self.rect.y = player_y
 
     def reset(self):
-        window.blit(self.image,(self.rect.x , self.rect.y))
+            window.blit(self.image,(self.rect.x , self.rect.y))
 
 class Player(GameSprite):
     def update_r(self):
@@ -25,16 +25,18 @@ class Player(GameSprite):
             self.rect.y += self.speed
         if keys[K_w] and self.rect.y > 5:    
             self.rect.y -= self.speed
-    
+        
 
 class Enemy(GameSprite):
     def update(self):
         self.rect.y += self.speed
-        
+            
 font.init()
 font1 = font.SysFont('Arial',36)
 lose1 = font1.render('player 1(L) lose', True,(155,0,55))
 lose2 = font1.render('player 2(R) lose', True,(155,0,55))
+scor_r = 0
+scor_l = 0
 window = display.set_mode((700,500))
 display.set_caption("Ping-pong")
 background = transform.scale(image.load("zxc.png"),(700,500))
@@ -45,6 +47,7 @@ player2 = Player('hero1.png', 640,250, 10)
 ball = Enemy('Night.png',250,250,5)
 speed_y = 3
 speed_x = 3
+
 
 game = True
 finish = False
@@ -58,22 +61,36 @@ while game:
         ball.rect.x += speed_x
         ball.rect.y += speed_y
         if ball.rect.y > 450 or ball.rect.y < 0:
-            speed_y *= -1
+                speed_y *= -1
         if sprite.collide_rect(player1,ball) or sprite.collide_rect(player2,ball):
-            speed_x *= -1
+                speed_x *= -1
         if ball.rect.x > 700:
-            finish = True
-            window.blit(lose1,(250,250))
+            scor_l += 1
+            ball.rect.x = 250
+            ball.rect.y = 250
         if ball.rect.x < 0:
+            scor_r += 1
+            ball.rect.x = 250
+            ball.rect.y = 250
+        cor_r = font1.render(str(scor_r), True,(233,230,108))
+        cor_l = font1.render(str(scor_l), True,(233,230,108))
+        window.blit(cor_r, (650, 10))
+        window.blit(cor_l, (10, 10))
+        if scor_l >= 3:
             finish = True
-            window.blit(lose2, (250,250))
-            
+            window.blit(lose1,(250,200))
+        if scor_r >= 3:
+            finish = True
+            window.blit(lose2,(250,200))
+                
         player1.reset()
         player1.update_l()
         player2.reset()
         player2.update_r()
-        ball.reset()           
+        ball.reset()
+        
+                   
 
     display.update()
-    clock.tick(fps)    
-    
+    clock.tick(fps)
+z    
